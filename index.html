@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Login Lamp</title>
+    <title>Masterpiece Login Lamp</title>
     
     <style>
-        /* --- 🎨 CSS for Styling and Animation --- */
+        /* --- 🎨 Enhanced CSS for Styling and Animation --- */
 
         :root {
-            /* Variables for easy color changes */
-            --bg-color: #1a1a1a;
-            --lamp-color: #333;
-            --light-color: #fff8e1;
-            --form-bg: rgba(255, 255, 255, 0.1);
-            --glow-color: #ffcc00; /* Yellow glow */
+            /* Variables */
+            --bg-color: #121212; /* Deep dark background */
+            --lamp-shade: #6a6a6a;
+            --lamp-stand: #a0a0a0;
+            --glow-color: #f7e68c; /* Soft yellow glow */
+            --light-color: #fffaf0;
+            --form-bg: rgba(255, 255, 255, 0.05); /* Very light glass effect */
+            --form-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -24,104 +26,184 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: white;
-            transition: background-color 0.5s ease;
+            transition: background-color 0.7s ease;
         }
 
-        /* --- Lamp Container (The main interaction area) --- */
         .lamp-container {
             position: relative;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Lamp aur form ko upar laane ke liye */
+            z-index: 10;
+        }
+
+        /* --- PURE CSS LAMP --- */
+        .lamp-wrapper {
+            /* Lamp ko ek saath scale karne ke liye wrapper */
+            transform: scale(1.5); /* Lamp ko bada karo */
+            transition: transform 0.3s ease;
+        }
+
+        .lamp {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            filter: brightness(60%);
+            transition: filter 0.5s ease;
+        }
+
+        /* Lamp Shade (More detailed shape) */
+        .lamp::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 50px;
+            background: var(--lamp-shade);
+            border-radius: 50% / 100% 100% 0 0;
+            /* Inner shadow for depth */
+            box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Light Source / Glow Effect */
+        .lamp::after {
+            content: '';
+            position: absolute;
+            top: 45px; /* Shade ke neeche se */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 10px;
+            background: transparent;
+            border-radius: 50%;
+            transition: box-shadow 0.7s ease;
+        }
+
+        /* Lamp Stand/Stem */
+        .lamp-stand {
+            width: 4px;
+            height: 60px;
+            background: var(--lamp-stand);
+            margin-top: -10px;
+            border-radius: 2px;
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
         }
         
-        /* --- The Login Form Box --- */
+        /* Lamp Base */
+        .lamp-base {
+            width: 35px;
+            height: 3px;
+            background: var(--lamp-stand);
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* --- LIGHT ON STATE --- */
+        .lamp-container.light-on .lamp {
+            filter: brightness(100%);
+            /* Ek chhota sa hilaav (jiggling) effect on click */
+            animation: jiggle 0.2s ease-in-out 1;
+        }
+
+        .lamp-container.light-on .lamp::after {
+            /* Lamp ka bada, circular glow */
+            background: var(--light-color);
+            box-shadow: 
+                0 0 50px 20px var(--glow-color), 
+                0 0 150px 50px rgba(247, 230, 140, 0.4); 
+        }
+
+        /* Jiggle Keyframes */
+        @keyframes jiggle {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(2deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* --- LOGIN FORM BOX (Glassmorphism Effect) --- */
         .login-form-box {
             position: absolute;
-            top: 50%;
+            top: 250px;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.8); /* Start smaller */
+            transform: translate(-50%, 0) scale(0.8);
             width: 300px;
             padding: 30px;
-            background: var(--form-bg);
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             text-align: center;
-            
-            /* Initial State: Hidden and Transformed */
+
+            /* Glassmorphism Styles */
+            background: var(--form-bg); 
+            backdrop-filter: blur(10px); /* Main glass effect */
+            border-radius: 15px;
+            border: 1px solid var(--form-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
             opacity: 0;
-            pointer-events: none; /* Can't click when hidden */
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none; 
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bounce effect */
         }
 
         .login-form-box.active {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1); /* Smoothly appear */
+            transform: translate(-50%, 0) scale(1); 
             pointer-events: all;
-            /* Optional: Add a light shadow when active */
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.2); 
         }
-
-        /* --- Lamp Image/SVG (You'd replace this with your actual lamp image) --- */
-        .lamp-image {
-            width: 150px; /* Adjust size */
-            height: auto;
-            /* Initial state: Dark/Grey */
-            filter: grayscale(100%) brightness(50%); 
-            transition: filter 0.5s ease;
-        }
-
-        .lamp-container.light-on .lamp-image {
-            /* On state: Bright and Colorful */
-            filter: grayscale(0%) brightness(100%);
-            /* Add a subtle glow/shadow to the lamp itself */
-            box-shadow: 0 0 10px var(--glow-color);
-        }
-
-        /* --- Input Fields Styling (For stylish look) --- */
+        
+        /* --- Input Fields (Minimalist) --- */
         input[type="text"], input[type="password"] {
             width: 90%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
             border: none;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-            background: transparent;
-            color: white;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1); /* Slightly visible background */
+            color: var(--light-color);
             outline: none;
-            transition: border-bottom 0.3s ease;
+            transition: background 0.3s, box-shadow 0.3s;
         }
         
         input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6);
         }
         
         input:focus {
-            border-bottom: 2px solid var(--light-color);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 2px var(--glow-color); /* Highlight border on focus */
         }
 
         button {
             background-color: var(--glow-color);
             color: var(--bg-color);
-            padding: 10px 20px;
+            padding: 10px 25px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px; /* Rounded button */
             cursor: pointer;
-            margin-top: 15px;
-            transition: background-color 0.3s;
+            margin-top: 20px;
             font-weight: bold;
+            letter-spacing: 1px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         button:hover {
-            background-color: #ffd966; /* Slightly lighter yellow */
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(247, 230, 140, 0.4);
         }
-
     </style>
 </head>
 <body>
 
     <div class="lamp-container" id="lampContainer">
         
-        <img class="lamp-image" src="your_lamp_image.png" alt="Login Lamp">
+        <div class="lamp-wrapper">
+            <div class="lamp"></div>
+            <div class="lamp-stand"></div>
+            <div class="lamp-base"></div>
+        </div>
         
         <div class="login-form-box" id="loginFormBox">
             <h2>Welcome Back!</h2>
@@ -129,10 +211,9 @@
                 <input type="text" placeholder="Username" required>
                 <input type="password" placeholder="Password" required>
                 <button type="submit">LOGIN</button>
-                <a href="#" style="color: white; font-size: 0.8em; display: block; margin-top: 10px;">Forgot Password?</a>
+                <a href="#" style="color: rgba(255, 255, 255, 0.7); font-size: 0.8em; display: block; margin-top: 15px; text-decoration: none;">Forgot Password?</a>
             </form>
         </div>
-
     </div>
 
     <script>
@@ -141,20 +222,17 @@
         const lampContainer = document.getElementById('lampContainer');
         const loginFormBox = document.getElementById('loginFormBox');
         
-        // Lamp par click event listener
         lampContainer.addEventListener('click', () => {
             
-            // 1. Lamp ke light-on hone ki class toggle karega
+            // Toggle classes for animation and visibility
             lampContainer.classList.toggle('light-on');
-            
-            // 2. Form ke visible hone ki class toggle karega (smoothly form dikhega/chhupega)
             loginFormBox.classList.toggle('active');
 
-            // Optional: Background ko bhi thoda bright/dim kar sakte hain
+            // Change body background for a subtle room lighting effect
             if (lampContainer.classList.contains('light-on')) {
-                document.body.style.backgroundColor = '#101010'; // Darker but not pitch black
+                document.body.style.backgroundColor = '#0a0a0a'; 
             } else {
-                document.body.style.backgroundColor = '#1a1a1a';
+                document.body.style.backgroundColor = '#121212';
             }
         });
         
