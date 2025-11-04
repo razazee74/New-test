@@ -3,98 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Login Interface</title>
+    <title>Animated Login Lamp</title>
+    
     <style>
-        /* Yahan aapka pura CSS code aayega */
-        /* Body ka background, form container ka style, input fields ka design aur */
-        /* **@keyframes** for animations. */
+        /* --- 🎨 CSS for Styling and Animation --- */
+
+        :root {
+            /* Variables for easy color changes */
+            --bg-color: #1a1a1a;
+            --lamp-color: #333;
+            --light-color: #fff8e1;
+            --form-bg: rgba(255, 255, 255, 0.1);
+            --glow-color: #ffcc00; /* Yellow glow */
+        }
 
         body {
-            /* Example: Modern dark background with gradient */
-            background: linear-gradient(45deg, #1f1c2c, #928dab);
+            background-color: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Prevent scrollbar during animation */
-        }
-        
-        .container {
-            /* The main wrapper for login/signup forms */
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-            width: 768px; /* Example size */
-            max-width: 100%;
-            min-height: 480px;
+            font-family: sans-serif;
+            color: white;
+            transition: background-color 0.5s ease;
         }
 
-        /* ... aur baaki sabhi stylish aur animated elements ka CSS ... */
+        /* --- Lamp Container (The main interaction area) --- */
+        .lamp-container {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        /* --- The Login Form Box --- */
+        .login-form-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8); /* Start smaller */
+            width: 300px;
+            padding: 30px;
+            background: var(--form-bg);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            
+            /* Initial State: Hidden and Transformed */
+            opacity: 0;
+            pointer-events: none; /* Can't click when hidden */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .login-form-box.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1); /* Smoothly appear */
+            pointer-events: all;
+            /* Optional: Add a light shadow when active */
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.2); 
+        }
+
+        /* --- Lamp Image/SVG (You'd replace this with your actual lamp image) --- */
+        .lamp-image {
+            width: 150px; /* Adjust size */
+            height: auto;
+            /* Initial state: Dark/Grey */
+            filter: grayscale(100%) brightness(50%); 
+            transition: filter 0.5s ease;
+        }
+
+        .lamp-container.light-on .lamp-image {
+            /* On state: Bright and Colorful */
+            filter: grayscale(0%) brightness(100%);
+            /* Add a subtle glow/shadow to the lamp itself */
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        /* --- Input Fields Styling (For stylish look) --- */
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            background: transparent;
+            color: white;
+            outline: none;
+            transition: border-bottom 0.3s ease;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        input:focus {
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        button {
+            background-color: var(--glow-color);
+            color: var(--bg-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #ffd966; /* Slightly lighter yellow */
+        }
+
     </style>
 </head>
 <body>
-    <div class="container" id="container">
-        <div class="form-container sign-up-container">
-            <form action="#">
-                <h1>Create Account</h1>
-                <div class="social-container">...</div>
-                <span>or use your email for registration</span>
-                <input type="text" placeholder="Name" />
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
-                <button>Sign Up</button>
+
+    <div class="lamp-container" id="lampContainer">
+        
+        <img class="lamp-image" src="your_lamp_image.png" alt="Login Lamp">
+        
+        <div class="login-form-box" id="loginFormBox">
+            <h2>Welcome Back!</h2>
+            <form>
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">LOGIN</button>
+                <a href="#" style="color: white; font-size: 0.8em; display: block; margin-top: 10px;">Forgot Password?</a>
             </form>
         </div>
 
-        <div class="form-container sign-in-container">
-            <form action="#">
-                <h1>Sign in</h1>
-                <div class="social-container">...</div>
-                <span>or use your account</span>
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
-                <a href="#">Forgot your password?</a>
-                <button>Sign In</button>
-            </form>
-        </div>
-
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1>Welcome Back!</h1>
-                    <p>To keep connected with us please login with your personal info</p>
-                    <button class="ghost" id="signIn">Sign In</button>
-                </div>
-                <div class="overlay-panel overlay-right">
-                    <h1>Hello, Friend!</h1>
-                    <p>Enter your personal details and start journey with us</p>
-                    <button class="ghost" id="signUp">Sign Up</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
-        // Yahan aapka pura JavaScript code aayega
-        // Forms ko switch karne ke liye **addEventListener** ka use hoga.
+        // --- ⚙️ JavaScript for Interaction ---
         
-        const signUpButton = document.getElementById('signUp');
-        const signInButton = document.getElementById('signIn');
-        const container = document.getElementById('container');
+        const lampContainer = document.getElementById('lampContainer');
+        const loginFormBox = document.getElementById('loginFormBox');
+        
+        // Lamp par click event listener
+        lampContainer.addEventListener('click', () => {
+            
+            // 1. Lamp ke light-on hone ki class toggle karega
+            lampContainer.classList.toggle('light-on');
+            
+            // 2. Form ke visible hone ki class toggle karega (smoothly form dikhega/chhupega)
+            loginFormBox.classList.toggle('active');
 
-        signUpButton.addEventListener('click', () => {
-            container.classList.add("right-panel-active");
-        });
-
-        signInButton.addEventListener('click', () => {
-            container.classList.remove("right-panel-active");
+            // Optional: Background ko bhi thoda bright/dim kar sakte hain
+            if (lampContainer.classList.contains('light-on')) {
+                document.body.style.backgroundColor = '#101010'; // Darker but not pitch black
+            } else {
+                document.body.style.backgroundColor = '#1a1a1a';
+            }
         });
         
-        // CSS mein **.right-panel-active** class ke liye transition properties define honi chahiye.
     </script>
 </body>
 </html>
