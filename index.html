@@ -3,37 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting to Telegram...</title>
-  <meta http-equiv="refresh" content="0; url=https://t.me/reurge">
+  <title>Redirecting...</title>
+  <meta http-equiv="refresh" content="3; url=https://t.me/reurge">
   <style>
     body {
       margin: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #00111f 0%, #000814 100%);
       height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      text-align: center;
+      align-items: center;
     }
-    .box {
-      background: rgba(255,255,255,0.05);
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    .feather {
+      position: absolute;
+      width: 180px;
+      height: auto;
+      animation: wave 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px rgba(0,255,255,0.5));
     }
-    a {
-      color: #00bfff;
-      text-decoration: none;
-      font-weight: 600;
+
+    @keyframes wave {
+      0% { transform: rotate(0deg) translateX(-100px) translateY(0); opacity: 0.9; }
+      50% { transform: rotate(15deg) translateX(100px) translateY(-20px); opacity: 1; }
+      100% { transform: rotate(0deg) translateX(-100px) translateY(0); opacity: 0.9; }
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>Redirecting to Telegram...</h2>
-    <p>Tap to redirect.., <a href="https://t.me/reurge">.</a>.</p>
-  </div>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Peacock_Feather.png" alt="Mor Pankh" class="feather">
 </body>
 </html>
