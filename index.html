@@ -1,36 +1,199 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
-  <meta http-equiv="refresh" content="3; url=https://t.me/reurge">
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: radial-gradient(circle at center, #00111f 0%, #000814 100%);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .feather {
-      position: absolute;
-      width: 180px;
-      height: auto;
-      animation: wave 3s ease-in-out infinite;
-      filter: drop-shadow(0 0 15px rgba(0,255,255,0.5));
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AdGenie Mini App</title>
 
-    @keyframes wave {
-      0% { transform: rotate(0deg) translateX(-100px) translateY(0); opacity: 0.9; }
-      50% { transform: rotate(15deg) translateX(100px) translateY(-20px); opacity: 1; }
-      100% { transform: rotate(0deg) translateX(-100px) translateY(0); opacity: 0.9; }
-    }
-  </style>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        /* --- Basic Setup --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #121212); /* Telegram theme color ya default dark */
+            color: var(--tg-theme-text-color, #FFFFFF);
+            margin: 0;
+            padding: 15px;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Header (Jo aapne manga) --- */
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--tg-theme-hint-color, #3a3a3c);
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--tg-theme-text-color, #FFFFFF);
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--tg-theme-hint-color, #8E8E93);
+            margin-top: 4px;
+        }
+
+        /* --- Main Form Card (Screenshot jaisa style) --- */
+        .card {
+            background-color: var(--tg-theme-secondary-bg-color, #1C1C1E);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* --- Form Elements --- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--tg-theme-hint-color, #8E8E93);
+            margin-bottom: 8px;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box; /* Important for padding */
+            border-radius: 8px;
+            border: 1px solid var(--tg-theme-hint-color, #3A3A3C);
+            background-color: #2C2C2E;
+            color: var(--tg-theme-text-color, #FFFFFF);
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #007AFF); /* Telegram blue */
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* --- Save Button --- */
+        .save-button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--tg-theme-button-color, #007AFF);
+            color: var(--tg-theme-button-text-color, #FFFFFF);
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .save-button:active {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Peacock_Feather.png" alt="Mor Pankh" class="feather">
+
+    <div class="header">
+        <h1 class="header-title">@AdGenie 🚀</h1>
+        <p class="header-subtitle">mini app</p>
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">Edit Your Profile</h2>
+        
+        <form id="profileForm">
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" placeholder="Enter your first name">
+            </div>
+
+            <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" placeholder="Enter your last name (optional)">
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" placeholder="Tell us about yourself..."></textarea>
+            </div>
+
+            </form>
+    </div>
+
+
+    <script>
+        try {
+            // Telegram WebApp Object Initialize karein
+            const tg = window.Telegram.WebApp;
+
+            // App ko expand (bada) karein
+            tg.expand();
+
+            // App ready hai, Telegram ko batayein
+            tg.ready();
+
+            // Telegram ka main button dikhayein
+            tg.MainButton.text = "Save Changes";
+            tg.MainButton.textColor = "#FFFFFF";
+            tg.MainButton.color = "#007AFF";
+            tg.MainButton.show();
+
+            // Jab koi user "Save Changes" button (neeche wala) click karega
+            tg.MainButton.onClick(function() {
+                const firstName = document.getElementById('first-name').value;
+                const lastName = document.getElementById('last-name').value;
+                const bio = document.getElementById('bio').value;
+
+                // 1. Data ko collect karein
+                const dataToSave = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    bio: bio,
+                    userId: tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null
+                };
+
+                // 2. Data ko bot ko vapas bhejein (yah server par jayega)
+                // Aapka bot is data ko `web_app_data` event se receive karega
+                tg.sendData(JSON.stringify(dataToSave));
+
+                // 3. User ko confirmation dein
+                tg.showAlert('Profile saved successfully!');
+
+                // 4. (Optional) Save karne ke baad app band kar dein
+                // tg.close();
+            });
+
+            // Telegram theme se colors sync karein
+            document.body.style.backgroundColor = tg.themeParams.bg_color || '#121212';
+            document.body.style.color = tg.themeParams.text_color || '#FFFFFF';
+
+        } catch (e) {
+            // Agar desktop ya browser me khola to error na dikhe
+            console.error(e);
+            // Fallback button dikhayein agar Telegram me nahi khula
+            document.getElementById('profileForm').innerHTML += '<button type="submit" class="save-button" onclick="event.preventDefault(); alert(\'Please open this in Telegram Mini App\');">Save Changes</button>';
+        }
+    </script>
+
 </body>
 </html>
