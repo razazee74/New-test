@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login/Sign up Form with Flip effect</title>
+    <title>Login/Sign up Form with Vertical Flip effect</title>
     <style>
         @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
 
@@ -32,7 +32,7 @@
             align-items: center;
             flex-direction: column;
             justify-content: center;
-            perspective: 1500px;
+            /* perspective को #container पर ले जाया गया है */
         }
 
         h1 {
@@ -172,13 +172,14 @@
             border-radius: 20px;
             box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.1), 0 10px 10px -10px rgba(0, 0, 0, 0.02);
             transform-style: preserve-3d;
+            perspective: 1500px; /* Perspective यहाँ सेट किया गया */
         }
 
         #container>div {
             position: absolute;
-            width: 50%;
-            min-width: 350px;
-            height: 100%;
+            /* vertical flip के लिए width 100% और height 50% */
+            width: 100%; 
+            height: 50%;
             top: 0;
             display: flex;
             flex-direction: column;
@@ -197,9 +198,10 @@
         }
 
         .login {
+            top: 50%; /* Login फॉर्म नीचे का आधा हिस्सा */
             left: 0;
             background: #FAFAFA;
-            border-radius: 20px 0 0 20px;
+            border-radius: 0 0 20px 20px; /* नीचे के कोने गोल */
         }
 
         .login button {
@@ -213,9 +215,10 @@
         }
 
         .register {
-            right: 0;
+            top: 0; /* Register फॉर्म ऊपर का आधा हिस्सा */
+            left: 0;
             z-index: 1;
-            border-radius: 0 20px 20px 0;
+            border-radius: 20px 20px 0 0; /* ऊपर के कोने गोल */
             background: #FAFAFA;
         }
 
@@ -230,10 +233,11 @@
         }
 
         .page {
-            right: 0;
+            top: 50%; /* Page नीचे की तरफ है */
+            left: 0;
             color: #fff;
-            border-radius: 0 20px 20px 0;
-            transform-origin: left center;
+            border-radius: 0 0 20px 20px; /* नीचे के कोने गोल */
+            transform-origin: top center; /* ऊपर से पलटेगा */
             transition: -webkit-animation 1s linear;
             transition: animation 1s linear;
             transition: animation 1s linear, -webkit-animation 1s linear;
@@ -259,8 +263,10 @@
         }
 
         .back .content {
-            transform: rotateY(180deg);
+            transform: rotateX(180deg); /* X-axis rotation */
         }
+
+        /* --- Keyframes for Vertical Flip (rotateX) --- */
 
         .active .front {
             -webkit-animation: rot-front 0.6s ease-in-out normal forwards;
@@ -284,83 +290,85 @@
 
         @-webkit-keyframes rot-front {
             from {
-                transform: translateZ(2px) rotateY(0deg);
+                transform: translateZ(2px) rotateX(0deg);
             }
 
             to {
-                transform: translateZ(1px) rotateY(-180deg);
+                transform: translateZ(1px) rotateX(-180deg);
             }
         }
 
         @keyframes rot-front {
             from {
-                transform: translateZ(2px) rotateY(0deg);
+                transform: translateZ(2px) rotateX(0deg);
             }
 
             to {
-                transform: translateZ(1px) rotateY(-180deg);
+                transform: translateZ(1px) rotateX(-180deg);
             }
         }
 
         @-webkit-keyframes close-rot-front {
             from {
-                transform: translateZ(1px) rotateY(-180deg);
+                transform: translateZ(1px) rotateX(-180deg);
             }
 
             to {
-                transform: translateZ(2px) rotateY(0deg);
+                transform: translateZ(2px) rotateX(0deg);
             }
         }
 
         @keyframes close-rot-front {
             from {
-                transform: translateZ(1px) rotateY(-180deg);
+                transform: translateZ(1px) rotateX(-180deg);
             }
 
             to {
-                transform: translateZ(2px) rotateY(0deg);
+                transform: translateZ(2px) rotateX(0deg);
             }
         }
 
         @-webkit-keyframes rot-back {
             from {
-                transform: translateZ(1px) rotateY(0deg);
+                transform: translateZ(1px) rotateX(0deg);
             }
 
             to {
-                transform: translateZ(2px) rotateY(-180deg);
+                transform: translateZ(2px) rotateX(-180deg);
             }
         }
 
         @keyframes rot-back {
             from {
-                transform: translateZ(1px) rotateY(0deg);
+                transform: translateZ(1px) rotateX(0deg);
             }
 
             to {
-                transform: translateZ(2px) rotateY(-180deg);
+                transform: translateZ(2px) rotateX(-180deg);
             }
         }
 
         @-webkit-keyframes close-rot-back {
             from {
-                transform: translateZ(2px) rotateY(-180deg);
+                transform: translateZ(2px) rotateX(-180deg);
             }
 
             to {
-                transform: translateZ(1px) rotateY(0deg);
+                transform: translateZ(1px) rotateX(0deg);
             }
         }
 
         @keyframes close-rot-back {
             from {
-                transform: translateZ(2px) rotateY(-180deg);
+                transform: translateZ(2px) rotateX(-180deg);
             }
 
             to {
-                transform: translateZ(1px) rotateY(0deg);
+                transform: translateZ(1px) rotateX(0deg);
             }
         }
+
+        /* Content fade-in/fade-out animations remain same */
 
         .active .register .content {
             -webkit-animation: show 0.7s ease-in-out normal forwards;
@@ -435,6 +443,49 @@
 <body>
 
     <div id="container">
+        <div class="register">
+            <div class="content">
+                <h1>Sign Up</h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-facebook">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+                <svg class="feather feather-twitter sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path
+                        d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                    </path>
+                </svg>
+                <svg class="feather feather-github sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                    </path>
+                </svg>
+                <svg class="feather feather-linkedin sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+
+                <span class="loginwith">Or</span>
+
+                <form>
+                    <input type="text" placeholder="name">
+                    <input type="email" placeholder="email">
+                    <input type="password" placeholder="password">
+                    <span class="remember">I accept terms</span>
+                    <span class="clearfix"></span>
+                    <button onclick="return false;">Register</button>
+                </form>
+            </div>
+        </div>
+
         <div class="login">
             <div class="content">
                 <h1>Log In</h1>
@@ -478,6 +529,7 @@
                 <span class="copy">&copy 2019</span>
             </div>
         </div>
+
         <div class="page front">
             <div class="content">
                 <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none"
@@ -519,48 +571,7 @@
                     </svg> Log In</button>
             </div>
         </div>
-        <div class="register">
-            <div class="content">
-                <h1>Sign Up</h1>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-facebook">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                </svg>
-                <svg class="feather feather-twitter sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24"
-                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path
-                        d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
-                    </path>
-                </svg>
-                <svg class="feather feather-github sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24"
-                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path
-                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                    </path>
-                </svg>
-                <svg class="feather feather-linkedin sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24"
-                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                    <rect x="2" y="9" width="4" height="12"></rect>
-                    <circle cx="4" cy="4" r="2"></circle>
-                </svg>
 
-                <span class="loginwith">Or</span>
-
-                <form>
-                    <input type="text" placeholder="name">
-                    <input type="email" placeholder="email">
-                    <input type="password" placeholder="password">
-                    <span class="remember">I accept terms</span>
-                    <span class="clearfix"></span>
-                    <button onclick="return false;">Register</button>
-                </form>
-            </div>
-        </div>
     </div>
 
     <a href="https://codepen.io/eminqasimov/full/KYrVBr" target="_blank" class="version">Rolling Version </a>
@@ -571,15 +582,4 @@
         const container = document.getElementById('container')
 
 
-        registerButton.onclick = function () {
-            container.className = 'active'
-        }
-        loginButton.onclick = function () {
-            container.className = 'close'
-        }
-    </script>
-
-</body>
-
-        </html>
-        
+        registerButton.onclick = function (
